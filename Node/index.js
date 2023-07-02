@@ -77,7 +77,7 @@ async function getNgrams(text1, text2) {
   }
 }
 
-// Call Django API and return ngrams to frontend
+// # Call Django API and return ngrams to frontend
 app.get('/ngrams', async (req, res) => {
   try {
     const texts = await TextData.find()
@@ -92,12 +92,13 @@ app.get('/ngrams', async (req, res) => {
 
     const ngrams = await getNgrams(texts[0].text, texts[1].text);
 
-    res.status(200).json(ngrams);
+    res.status(200).json({ text: ngrams });  // Include 'text' property in the response
   } catch (error) {
     console.error('Error retrieving ngrams:', error);
     res.status(500).json({ error: 'Error retrieving ngrams' });
   }
 });
+
 
 
 

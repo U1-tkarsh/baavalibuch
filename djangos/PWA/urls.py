@@ -1,14 +1,6 @@
-from django.contrib import admin
-from django.urls import path, include
-from rest_framework import routers
-from . import views
-
-
-
-router = routers.DefaultRouter()
-router.register('ngrams', views.TodoView, 'PWA')
-
+from django.urls import path
+from .views import get_ngrams
 
 urlpatterns = [
-    path('api/', include(router.urls)),
+    path('api/ngrams/', get_ngrams, name='ngrams'),
 ]

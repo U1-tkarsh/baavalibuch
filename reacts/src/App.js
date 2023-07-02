@@ -3,25 +3,12 @@ import axios from 'axios';
 
 function App() {
   const [inputText, setInputText] = useState('');
-  const [ngrams, setNgrams] = useState([]);
+  const [ngrams, setNgrams] = useState('');
 
-  useEffect(() => {
-    // Fetch the ngrams from the Django API
-    const fetchNgrams = async () => {
-      try {
-        const response = await axios.get('http://127.0.0.1:8000/api/ngrams/', { data: inputText });
-        setNgrams(response.data);
-      } catch (error) {
-        console.error('Error retrieving ngrams:', error);
-      }
-    };
-
-    fetchNgrams();
-  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
+  
     // Make a POST request to your backend to insert the text data
     axios
       .post('http://localhost:5000/text-data', { text: inputText })
@@ -29,14 +16,33 @@ function App() {
         // Handle successful response from the backend
         console.log(response.data);
         // Update the UI or perform any other actions based on the response
+  
+        // Call the function to retrieve ngrams here
+        getNgrams();
       })
       .catch((error) => {
         // Handle error
-        console.error(error);
+        if (error.response && error.response.data && error.response.data.error) {
+          console.error(error.response.data.error);
+        } else {
+          console.error(error);
+        }
       });
-
-      
   };
+  
+  // Function to call Django API and retrieve ngrams
+  async function getNgrams() {
+    try {
+      const response = await axios.get('http://localhost:5000/ngrams');
+      setNgrams(response.data.text)
+      console.log('Ngrams Comparison:', response.data.text);
+      // Process the ngrams data or update the UI based on the comparison result
+    } catch (error) {
+      console.error('Error retrieving ngrams:', error);
+    }
+  }
+  
+
 
   return (
     <div>
@@ -50,12 +56,18 @@ function App() {
         <button type="submit">Submit</button>
       </form>
 
-      <h2>Ngrams:</h2>
-      <ul>
-        {ngrams.map((ngram, index) => (
-          <li key={index}>{ngram}</li>
-        ))}
-      </ul>
+      {/* Display the ngramsArray in array format */}
+      <h2>Ngrams Comparison:</h2>
+      {ngrams.length > 0 ? (
+        <ul>
+          {ngrams.map((ngram, index) => (
+            <li key={index}>{ngram.join(' ')}</li>
+
+          ))}
+        </ul>
+      ) : (
+        <p>No ngrams to display</p>
+      )}
     </div>
   );
 }
