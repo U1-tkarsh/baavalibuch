@@ -60,6 +60,7 @@ function App() {
           <input
             type="text"
             className="input-text"
+            placeholder="write your text here"
             value={inputText}
             onChange={(e) => setInputText(e.target.value)}
           />
