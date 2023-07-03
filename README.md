@@ -1,7 +1,7 @@
-Project Name
+Project Name:- 
 Ngram Comparison App
 
-Table of Contents
+Table of Contents:- 
 
 Project Overview
 Technologies Used
@@ -18,16 +18,16 @@ React.js for frontend
 Node.js for backend
 Django for backend
 
-Usage
+Usage:-
 First start Django server by typing "py manage.py runserver"
 then start node.js server by typing "nodemon index.js"
 then start react.js server by typing "npm start"
 
-API Endpoints
+API Endpoints:-
 "api/ngrams/" this is an endponit of django server in which only post data is present only based on last 2 strings it split in the form of array
 "text-data" this is an endpoint of node.js server for post data in mongodb with connection log
 
-Port Number
+Port Number:-
 Django -> 8000
 React.js -> 3000
 Node.js -> 5000
